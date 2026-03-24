@@ -30,7 +30,10 @@ body {
   background: linear-gradient(135deg, var(--ivory) 0%, var(--champagne-light) 50%, var(--cream) 100%);
   line-height: 1.9;
   min-height: 100vh;
+  overflow-x: hidden;
 }
+
+img { max-width: 100%; height: auto; }
 
 /* Header */
 header {
