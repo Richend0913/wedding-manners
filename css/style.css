@@ -376,6 +376,23 @@ nav a:hover { color: var(--gold); }
 
 .btn-amazon:hover, .btn-rakuten:hover { opacity: 0.85; }
 
+/* PR product cards (former ad slots: mid / bottom) */
+.pr-slot {
+  background: var(--white);
+  border: 1px solid var(--gold-light);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 30px 0;
+}
+.pr-slot h3 { color: var(--gold-dark); font-size: 1.05rem; margin-bottom: 14px; }
+.pr-label { text-align: right; font-size: 0.7rem; color: var(--text-medium); letter-spacing: 0.1em; }
+.pr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+.pr-card { border: 1px solid var(--champagne-light); border-radius: 10px; padding: 14px; text-align: center; }
+.pr-card h4 { margin-bottom: 6px; }
+.pr-card p { font-size: 0.85rem; color: var(--text-medium); margin-bottom: 10px; }
+.pr-card .affiliate-links { gap: 8px; }
+.pr-card .btn-amazon, .pr-card .btn-rakuten { padding: 8px 16px; font-size: 0.8rem; }
+
 /* AdSense placeholder */
 .ad-unit {
   background: var(--champagne-light);

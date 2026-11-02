@@ -7,6 +7,7 @@ from datetime import datetime
 SITE_TITLE = "結婚式マナーガイド"
 SITE_DESC = "結婚式のご祝儀相場・服装マナー・スピーチ例文など、知っておきたい結婚式マナーを完全網羅。初めての結婚式参列でも安心のマナーガイド。"
 ADSENSE_ID = ""  # AdSense removed: not approved (2026-11-02)
+GA_TAG = '<script async src="https://www.googletagmanager.com/gtag/js?id=G-63VB4HT3T2"></script>\n<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag(\'js\',new Date());gtag(\'config\',\'G-63VB4HT3T2\',{page_area:\'wedding-manners\'});</script>'
 AMAZON_TAG = "okuritegift-22"
 RAKUTEN_ID = "522e40a0.f2dc4208.522e40a1.385f875e"
 BASE_URL = "https://richend0913.github.io/wedding-manners"
@@ -612,6 +613,47 @@ def build_affiliate_html(items):
     return "\n".join(html_parts)
 
 
+# ─── 旧AdSense枠（中段・末尾）の商品カード化 ─────────────────────
+# 撤去で空いた枠のうち中段（index）・末尾（記事）だけを、既存の AFFILIATE_LINKS
+# （同じAmazonタグ・楽天ID）で埋める。上部枠は空けたまま。1ページ最大2枠。
+PR_SLOT_ITEMS = {
+    "goshugi": ("ご祝儀の準備に", ["ご祝儀袋", "ふくさ", "筆ペン"]),
+    "fukuso": ("フォーマル小物をそろえる", ["ネクタイ", "パーティーバッグ", "パンプス"]),
+    "speech": ("スピーチ当日の装いに", ["ネクタイ", "ポケットチーフ", "パーティードレス"]),
+    "shotaijo": ("返信・ご祝儀の準備に", ["筆ペン", "ご祝儀袋", "ふくさ"]),
+    "table": ("当日のフォーマル小物に", ["パーティーバッグ", "ポケットチーフ", "パールネックレス"]),
+    "nijikai": ("二次会の装いに", ["パーティードレス", "パーティーバッグ", "ネクタイ"]),
+    "sonota": ("お祝い・ギフトの準備に", ["ギフトカタログ", "ご祝儀袋", "ふくさ"]),
+}
+PR_SLOT_INDEX = ("結婚式の準備に役立つアイテム", ["ご祝儀袋", "ネクタイ", "パーティーバッグ", "ギフトカタログ"])
+
+
+def build_pr_slot(heading, items, exclude=()):
+    """Product-card block (PR labelled) built only from AFFILIATE_LINKS."""
+    picks = [i for i in items if i in AFFILIATE_LINKS and i not in exclude] or \
+            [i for i in items if i in AFFILIATE_LINKS]
+    if not picks:
+        return ""
+    cards = ""
+    for item in picks:
+        link = AFFILIATE_LINKS[item]
+        cards += f"""
+            <div class="pr-card">
+                <h4>{item}</h4>
+                <p>{link['desc']}</p>
+                <div class="affiliate-links">
+                    <a href="{link['amazon']}" target="_blank" rel="nofollow sponsored noopener" class="btn-amazon">Amazonで探す</a>
+                    <a href="{link['rakuten']}" target="_blank" rel="nofollow sponsored noopener" class="btn-rakuten">楽天市場で探す</a>
+                </div>
+            </div>"""
+    return f"""<aside class="pr-slot">
+        <div class="pr-label">広告・PR</div>
+        <h3>{heading}</h3>
+        <div class="pr-grid">{cards}
+        </div>
+    </aside>"""
+
+
 def build_jsonld_article(guide):
     """Build JSON-LD structured data for an article."""
     return json.dumps({
@@ -702,11 +744,13 @@ def generate_guide_page(guide, all_guides):
 
     adsense_top = f""""""
 
-    adsense_bottom = f""""""
+    pr_heading, pr_items = PR_SLOT_ITEMS.get(guide["category"], PR_SLOT_ITEMS["sonota"])
+    adsense_bottom = build_pr_slot(pr_heading, pr_items, exclude=guide.get("affiliate_items", []))
 
     return f"""<!DOCTYPE html>
 <html lang="ja">
 <head>
+{GA_TAG}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{guide["title"]} | {SITE_TITLE}</title>
@@ -795,11 +839,12 @@ def generate_index(guides):
     </section>
 """
 
-    adsense_mid = f""""""
+    adsense_mid = build_pr_slot(*PR_SLOT_INDEX)
 
     return f"""<!DOCTYPE html>
 <html lang="ja">
 <head>
+{GA_TAG}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{SITE_TITLE} | 結婚式のご祝儀・服装・スピーチマナーを完全網羅</title>
