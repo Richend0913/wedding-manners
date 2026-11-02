@@ -6,7 +6,7 @@ from datetime import datetime
 
 SITE_TITLE = "結婚式マナーガイド"
 SITE_DESC = "結婚式のご祝儀相場・服装マナー・スピーチ例文など、知っておきたい結婚式マナーを完全網羅。初めての結婚式参列でも安心のマナーガイド。"
-ADSENSE_ID = "ca-pub-6327505164684489"
+ADSENSE_ID = ""  # AdSense removed: not approved (2026-11-02)
 AMAZON_TAG = "okuritegift-22"
 RAKUTEN_ID = "522e40a0.f2dc4208.522e40a1.385f875e"
 BASE_URL = "https://richend0913.github.io/wedding-manners"
@@ -700,17 +700,9 @@ def generate_guide_page(guide, all_guides):
         [f'<li><a href="../index.html#{cid}">{c["name"]}</a></li>' for cid, c in CATEGORIES.items()]
     )
 
-    adsense_top = f"""<div class="ad-unit">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_ID}" crossorigin="anonymous"></script>
-    <ins class="adsbygoogle" style="display:block" data-ad-client="{ADSENSE_ID}" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
-</div>"""
+    adsense_top = f""""""
 
-    adsense_bottom = f"""<div class="ad-unit">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_ID}" crossorigin="anonymous"></script>
-    <ins class="adsbygoogle" style="display:block" data-ad-client="{ADSENSE_ID}" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
-</div>"""
+    adsense_bottom = f""""""
 
     return f"""<!DOCTYPE html>
 <html lang="ja">
@@ -731,7 +723,6 @@ def generate_guide_page(guide, all_guides):
     <link rel="canonical" href="{BASE_URL}/guides/{guide["slug"]}.html">
     <link rel="stylesheet" href="../css/style.css">
     <script type="application/ld+json">{jsonld}</script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_ID}" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -804,11 +795,7 @@ def generate_index(guides):
     </section>
 """
 
-    adsense_mid = f"""<div class="ad-unit">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_ID}" crossorigin="anonymous"></script>
-    <ins class="adsbygoogle" style="display:block" data-ad-client="{ADSENSE_ID}" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
-</div>"""
+    adsense_mid = f""""""
 
     return f"""<!DOCTYPE html>
 <html lang="ja">
@@ -829,7 +816,6 @@ def generate_index(guides):
     <link rel="canonical" href="{BASE_URL}/">
     <link rel="stylesheet" href="css/style.css">
     <script type="application/ld+json">{jsonld}</script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_ID}" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
